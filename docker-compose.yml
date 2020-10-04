@@ -1,0 +1,25 @@
+version: "3"
+services: 
+    react:
+        build: 
+            context: . # yml이랑 Dockerfile이랑 같은 경로
+            dockerfile: Dockerfile.dev
+        ports: 
+         - "3000:3000"
+        volumes: 
+         - /usr/src/app/node_modules # node_module은 volume에서 제외
+         - ./:/usr/src/app
+        # - C:/Users/whahn/Desktop/docker-react-app/:/usr/src/app
+        environment:
+         - CHOKIDAR_USEPOLLING=true 
+        stdin_open: true # react 버그 때문에 추가
+    tests:
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes: 
+         - /usr/src/app/node_modules
+         - ./:/usr/src/app
+        environment:
+         - CHOKIDAR_USEPOLLING=true  
+        command: ["npm", "run", "test"]

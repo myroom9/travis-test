@@ -12,5 +12,17 @@ before_install:
 script:
     - docker run -e CI=true whahn/latest npm run test -- --coverage
 
+deploy:
+    provider: elasticbeanstalk
+    region: "ap-northeast-2"
+    app: "travis-test"
+    env: "TravisTest-env"
+    bucket_name: "elasticbeanstalk-ap-northeast-2-279552030081"
+    bucket_path: "travis-test"
+    on:
+        branch: master
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_ACCESS_KEY
+
 after_success:
     - echo "success"
